@@ -5,10 +5,12 @@
 
 package fr.discowzombie.sevenstepturing
 
-enum class State(private val code: String) {
-    BEGIN("q0"),
-    END("qf");
+import java.io.File
 
-    fun toCode(): String = code
+fun main(args: Array<String>) {
+    val ruban = T7FileReader(File("simple.t7")).readRuban()
+    println(ruban)
 
+    val trans = T7FileReader(File("simple.t7")).readTransition()
+    println(trans)
 }

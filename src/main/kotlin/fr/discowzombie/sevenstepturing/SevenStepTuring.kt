@@ -1,74 +1,84 @@
+/*
+ * Copyright (c) 2018 Mathéo CIMBARO.
+ * This work is licensed under a CC-BY-NC-SA 4.0 (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License)
+ */
+
 package fr.discowzombie.sevenstepturing
 
-private var fonctionTransition: Set<Transition> = setOf()
-private var rubanInitial: List<Byte?> = listOf()
+import java.io.File
+
+private const val DEFAULT_FILE = "simple.t7"
 
 fun main(args: Array<String>) {
-    // RUban d'entrée
-    rubanInitial += 0.toByte()
+    println("[*] Copyright (c) 2018 Mathéo CIMBARO. This work is licensed under a CC-BY-NC-SA 4.0.")
 
-    // Element à ajouter dans la liste des transitions
-    fonctionTransition += Transition(
-        State.BEGIN.toCode(),
-        0.toByte(),
-        State.BEGIN.toCode(),
-        0.toByte(),
-        Deplacment.RIGHT
-    )
-    fonctionTransition += Transition(
-        State.BEGIN.toCode(),
-        1.toByte(),
-        State.END.toCode(),
-        null,
-        null
-    )
+    if (args.firstOrNull() != null)
+        println("Using file: ${args[0]}")
+    else
+        println("No file specified, use default: $DEFAULT_FILE")
+
+    // Charger le ruban et les transitions
+    try {
+        val file = File(args.firstOrNull() ?: DEFAULT_FILE)
+        val result = T7FileReader(file).readFull()
+
+        val rubanValue = result.first
+        TransitionSaver.fonctionTransition = result.second
+
+        // => Construction du ruban (soit disant infini)
+        Ruban.buildRuban(rubanValue)
+    } catch (exc: ArrayIndexOutOfBoundsException) {
+        exc.printStackTrace()
+    }
 
     // == LOGIQUE DU PROGRAMME == //
 
-    // => Construction du ruban (soit disant infini)
-    var ruban = mutableListOf<Byte?>()
-    for (i in 0 until rubanInitial.size + 200) {
-        var value: Byte? = null
-
-        if (i >= 100 && i < 100 + rubanInitial.size)
-            value = rubanInitial[i - 100]
-
-        ruban = ruban.plus(value).toMutableList()
-    }
-
     // => Trouver l'élement le plus à gauche du ruban
-    val indexBegin = ruban.indexOfFirst { it != null }
+    val indexBegin = Ruban.findBegin()
 
     // => Lire le ruban et suivre ses ordres
     var etatActuel = State.BEGIN.toCode()
     var index: Int = indexBegin
     // Le programme a-il pris fin dans un état acceptant ? Null si le programme tourne encore, True si il était dans un état acceptant, False sinon
     var properEnd: Boolean? = null
+    // Compte le nombre d'instruction passé avec succès
+    var instructionSuccess = 0
+    // Dèrnière instruction
+    var lastInstruction: Transition? = null
 
     // Notre machine de Turing tourne
     while (properEnd == null) {
-        val instruction = Instruction.findOneWhoMatch(etatActuel, ruban[index], fonctionTransition)
+        val instruction = Transition.findWhoMatch(etatActuel, Ruban.rubanInitial[index])
 
         // Aucune instruction ne correspond, c'est embettant :/
         if (instruction != null) {
             // "Exécuter" les instructions sur le ruban
-            etatActuel = instruction.first
-            ruban[index] = instruction.second
+            etatActuel = instruction.afterState
+            Ruban.rubanInitial[index] = instruction.letterToWrite
 
-            index += when (instruction.third) {
-                Deplacment.RIGHT -> 1
-                Deplacment.LEFT -> -1
-                else -> 0
+            when (instruction.movement) {
+                Movement.RIGHT -> ++index
+                Movement.LEFT -> --index
             }
 
             // Vérifier si on a atteint l'état de fin du programme
-            if (etatActuel == State.END.toCode() && instruction.third == null) {
+            if (etatActuel == State.END.toCode() && instruction.movement == null) {
                 properEnd = true
             }
+
+            ++instructionSuccess
+            lastInstruction = instruction
         } else {
             properEnd = false
         }
     }
 
-    print("End ? $properEnd")
+    println("=-=-=-=-=-=-= 7stepturing =-=-=-=-=-=-=-=-=")
+    println("Instruction(s) executée(s) avec succès: $instructionSuccess")
+    println("Le mot est-il accepté (fin sur un état acceptant): $properEnd")
+    if (!properEnd)
+        println("Dèrnière instruction avec succès: $lastInstruction")
+    println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+    println("Ruban à la fin: ${Ruban.rubanInitial}")
+    println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
 }

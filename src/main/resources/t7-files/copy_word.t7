@@ -1,0 +1,30 @@
+transition:
+q0 0 qa 2 D
+q0 1 qb 3 D
+qa 0 qa 0 D
+qa 1 qa 1 D
+qa null qA null D
+qA null qr 0 G
+qr null qR null G
+qR 0 qR 0 G
+qR 1 qR 1 G
+qR 2 q0 0 D
+qR 3 q0 1 D
+qr 0 qb 0 D
+qr 1 qb 1 D
+qb null qB null D
+qB 0 qB 0 D
+qB 1 qB 1 D
+qA 0 qA 0 D
+qA 1 qA 1 D
+qB null qr 1 G
+qr 0 qr 0 G
+qr 1 qr 1 G
+q0 null qf null null
+:transition
+
+ruban:
+0
+1
+1
+:ruban

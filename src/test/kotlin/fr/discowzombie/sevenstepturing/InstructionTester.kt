@@ -5,10 +5,10 @@
 
 package fr.discowzombie.sevenstepturing
 
-enum class State(private val code: String) {
-    BEGIN("q0"),
-    END("qf");
+fun main(args: Array<String>) {
+    val instruction = Transition.findWhoMatch(
+        "q0",
+        1.toByte())
 
-    fun toCode(): String = code
-
+    println(instruction)
 }

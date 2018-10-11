@@ -1,0 +1,19 @@
+# Remplacer tous les zeros par des 1
+
+transition:
+q0 0 q0 1 D
+q0 1 q0 1 D
+q0 null qf null null
+:transition
+
+ruban:
+0
+0
+0
+1
+0
+0
+1
+1
+0
+:ruban
