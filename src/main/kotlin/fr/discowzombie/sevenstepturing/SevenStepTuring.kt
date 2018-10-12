@@ -11,7 +11,7 @@ import java.io.FileWriter
 private const val DEFAULT_FILE = "simple.t7"
 
 fun main(args: Array<String>) {
-    println("[*] Copyright (c) 2018 Mathéo CIMBARO. This work is licensed under a CC-BY-NC-SA 4.0.")
+    println("[*] Copyright (c) 2018 Mathéo CIMBARO. This work is licensed under a CC-BY-NC-SA 4.0.\n[*] By using this software, you agree the licence.")
 
     // Load params
     Params.loadParams(args)
