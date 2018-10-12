@@ -1,0 +1,28 @@
+# Permets d'écrire un mot binaire qui alterne des zéros et des un en partant de la fin.
+# Création : Mathéo CIMBARO.
+
+transition:
+q0 0 q0 0 R
+q0 1 q0 1 R
+q0 null qw null L
+qw 0 qwa 0 L
+qw 1 qwb 1 L
+qwa 0 qwb 1 L
+qwa 1 qwb 1 L
+qwb 0 qwa 0 L
+qwb 1 qwa 0 L
+qwa null qf null null
+qwb null qf null null
+:transition
+
+# Vous pouvez modifier le ruban à votre convenance.
+ruban:
+0
+0
+1
+1
+1
+0
+1
+1
+:ruban

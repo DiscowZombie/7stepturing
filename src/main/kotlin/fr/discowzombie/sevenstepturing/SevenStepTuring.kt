@@ -6,20 +6,25 @@
 package fr.discowzombie.sevenstepturing
 
 import java.io.File
+import java.io.FileWriter
 
 private const val DEFAULT_FILE = "simple.t7"
 
 fun main(args: Array<String>) {
     println("[*] Copyright (c) 2018 Mathéo CIMBARO. This work is licensed under a CC-BY-NC-SA 4.0.")
 
-    if (args.firstOrNull() != null)
-        println("Using file: ${args[0]}")
+    // Load params
+    Params.loadParams(args)
+
+    val fileName = Params.getParamValue("file") ?: DEFAULT_FILE
+    if (Params.isSpecified("file"))
+        println("Using file: $fileName")
     else
         println("No file specified, use default: $DEFAULT_FILE")
 
     // Charger le ruban et les transitions
     try {
-        val file = File(args.firstOrNull() ?: DEFAULT_FILE)
+        val file = File(fileName)
         val result = T7FileReader(file).readFull()
 
         val rubanValue = result.first
@@ -45,6 +50,13 @@ fun main(args: Array<String>) {
     var instructionSuccess = 0
     // Dèrnière instruction
     var lastInstruction: Transition? = null
+    // Ecriture dans le fichier
+    val logFile = File("execution.log")
+    if (logFile.exists())
+        logFile.delete()
+
+    logFile.createNewFile()
+    val writter = FileWriter(logFile)
 
     // Notre machine de Turing tourne
     while (properEnd == null) {
@@ -71,13 +83,23 @@ fun main(args: Array<String>) {
         } else {
             properEnd = false
         }
+
+        writter.appendln("$lastInstruction")
+        writter.appendln(" -> ${Ruban.rubanInitial}")
     }
 
+    if (properEnd)
+        writter.appendln("Mot accepté: Fin sur un état acceptant")
+    else
+        writter.appendln("Mot rejeté: Fin sur un état non acceptant")
+    writter.flush()
+    writter.close()
+
     println("=-=-=-=-=-=-= 7stepturing =-=-=-=-=-=-=-=-=")
-    println("Instruction(s) executée(s) avec succès: $instructionSuccess")
+    println("Instruction(s) exécutée(s) avec succès: $instructionSuccess")
     println("Le mot est-il accepté (fin sur un état acceptant): $properEnd")
     if (!properEnd)
-        println("Dèrnière instruction avec succès: $lastInstruction")
+        println("Dernière instruction avec succès: $lastInstruction")
     println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
     println("Ruban à la fin: ${Ruban.rubanInitial}")
     println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")

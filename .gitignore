@@ -18,8 +18,12 @@ local.properties
 *.iws
 .idea/
 
-#Gradle
+# Gradle
 .gradletasknamecache
 .gradle/
 build/
 bin/
+
+# Generated
+execution.log
+/*.t7
