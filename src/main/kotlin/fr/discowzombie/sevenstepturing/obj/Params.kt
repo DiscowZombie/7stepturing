@@ -3,7 +3,7 @@
  * This work is licensed under a CC-BY-NC-SA 4.0 (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License)
  */
 
-package fr.discowzombie.sevenstepturing
+package fr.discowzombie.sevenstepturing.obj
 
 class Param(val name: String, val regex: Regex)
 
@@ -15,8 +15,14 @@ object Params {
     private var validParams = hashMapOf<Param, String>()
 
     init {
-        params += Param("lang", "(fr|en)".toRegex())
-        params += Param("file", "([A-Za-z0-9_.-])+".toRegex())
+        params += Param(
+            "lang",
+            "(fr|en)".toRegex()
+        )
+        params += Param(
+            "file",
+            "([A-Za-z0-9_.-])+".toRegex()
+        )
     }
 
     fun loadParams(args: Array<String>): HashMap<Param, String> {
@@ -35,11 +41,11 @@ object Params {
             }
         }
 
-        this.validParams = paramValue
-        return this.validParams
+        validParams = paramValue
+        return validParams
     }
 
-    fun getParamValue(param: String): String? = this.validParams.filter {
+    fun getParamValue(param: String): String? = validParams.filter {
         it.key.name == param
     }.values.firstOrNull()
 

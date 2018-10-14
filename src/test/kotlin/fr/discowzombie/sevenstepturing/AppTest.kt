@@ -5,6 +5,9 @@
 
 package fr.discowzombie.sevenstepturing
 
+import fr.discowzombie.sevenstepturing.obj.Param
+import fr.discowzombie.sevenstepturing.obj.Params
+
 val params: HashSet<Param> = hashSetOf()
 
 fun main(args: Array<String>) {

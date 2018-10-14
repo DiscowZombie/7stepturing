@@ -5,6 +5,8 @@
 
 package fr.discowzombie.sevenstepturing
 
+import fr.discowzombie.sevenstepturing.obj.Movement
+import fr.discowzombie.sevenstepturing.obj.Transition
 import java.io.File
 
 class T7FileReader(private val file: File) {
@@ -30,7 +32,13 @@ class T7FileReader(private val file: File) {
         return lineAsList.subList(indexBegin, indexEnd).map {
             val line = it.split(" ")
 
-            Transition(line[0], if (line[1] == "null") null else line[1].toByte(), line[2], if (line[3] == "null") null else line[3].toByte(), Movement.fromString(line[4]))
+            Transition(
+                line[0],
+                if (line[1] == "null") null else line[1].toByte(),
+                line[2],
+                if (line[3] == "null") null else line[3].toByte(),
+                Movement.fromString(line[4])
+            )
         }.toSet()
     }
 

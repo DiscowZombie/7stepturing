@@ -3,11 +3,12 @@
  * This work is licensed under a CC-BY-NC-SA 4.0 (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License)
  */
 
-package fr.discowzombie.sevenstepturing
+package fr.discowzombie.sevenstepturing.app
 
+import fr.discowzombie.sevenstepturing.T7FileReader
+import fr.discowzombie.sevenstepturing.obj.*
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileWriter
 import java.io.IOException
 
@@ -16,16 +17,23 @@ private const val COPYRIGHT =
 
 private const val DEFAULT_FILE = "simple.t7"
 
-class SevenStepTuringApp(val args: Array<String>, private val filePath: String? = null) {
+class SevenStepTuringApp(val args: Array<String>) {
 
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
-    private val params = Params.loadParams(this.args)
-    private val file = File(filePath ?: DEFAULT_FILE)
+    private val param = Params
+    private var file = File(DEFAULT_FILE)
     private var t7file: T7FileReader? = null
 
     init {
         // Display copyright
         LOGGER.info(COPYRIGHT)
+
+        param.loadParams(this.args)
+
+        val f = param.getParamValue("file")
+
+        if (f != null)
+            file = File(f)
     }
 
     @Throws(SecurityException::class, IOException::class)

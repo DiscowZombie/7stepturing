@@ -5,6 +5,8 @@
 
 package fr.discowzombie.sevenstepturing
 
+import fr.discowzombie.sevenstepturing.obj.Transition
+
 fun main(args: Array<String>) {
     val instruction = Transition.findWhoMatch(
         "q0",

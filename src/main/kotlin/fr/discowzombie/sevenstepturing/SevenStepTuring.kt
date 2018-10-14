@@ -5,7 +5,11 @@
 
 package fr.discowzombie.sevenstepturing
 
+import fr.discowzombie.sevenstepturing.app.SevenStepTuringApp
 import fr.discowzombie.sevenstepturing.exts.reduceByNullable
+import fr.discowzombie.sevenstepturing.obj.Param
+import fr.discowzombie.sevenstepturing.obj.Params
+import fr.discowzombie.sevenstepturing.obj.Ruban
 import java.io.IOException
 
 fun main(args: Array<String>) {

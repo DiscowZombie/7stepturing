@@ -5,10 +5,11 @@
 
 package fr.discowzombie.sevenstepturing
 
+import fr.discowzombie.sevenstepturing.app.SevenStepTuringApp
 import java.io.IOException
 
 fun main(args: Array<String>) {
-    val application =  SevenStepTuringApp(args = arrayOf(""))
+    val application = SevenStepTuringApp(args = arrayOf(""))
 
     try {
         application.initFile()
