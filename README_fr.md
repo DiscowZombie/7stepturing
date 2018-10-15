@@ -55,7 +55,7 @@ pour ne pas avoir d'erreur. Voici, pour chaque élément, les données attendus 
 | Element | Valeur acceptés |
 | :-------- | :-------- | 
 | État initial | Chaine de caractères. L'état initial est forcément **q0** et le finale forcément **qf**. La valeur **null n'est pas acceptée** |
-| Lettre à lire | Interprété comme un octet (Byte), ceci doit donc être un nombre entre 0 et 255 inclus. La valeur **null** est acceptée et représente un blanc sur le ruban |
+| Lettre à lire | Interprété comme un octet (Byte), ceci doit donc être un nombre entre -128 et 127 inclus. La valeur **null** est acceptée et représente un blanc sur le ruban |
 | État suivant | Même règles que pour l'état initial |
 | Lettre à écrire | Même règles que pour la lettre à lire |
 | Déplacement | **R** représentant droite (Right) et **L** représentant gauche ("Left"). La valeur **null** est acceptée **mais** ne doit être utilisée que pour l'instruction finale. Dans le cas contraire, elle cause une boucle infinie |
@@ -90,7 +90,7 @@ dans les fichiers *.t7*, chaque donnée doit être sur une ligne :
 1
 ```
 Le fichier ci-dessus est valide (je me suis volontairement limité à 1 mais rappelez-vous que le programme travaille sur des octets, soit
-des valeurs jusqu'à 255 inclus **+** la valeur null). Ces valeurs seront copiées sur le ruban au début du programme et des "deux côtés" du ruban (droite et gauche), une
+des valeurs de -128 à 127 inclus **+** la valeur null). Ces valeurs seront copiées sur le ruban au début du programme et des "deux côtés" du ruban (droite et gauche), une
 infinité* de caractères vides seront ajoutés.
 
 *(NB: Évidement il n'est pas possible de travailler avec l'infini ni en informatique ni dans notre quotidien mais la limite ici est largement suffisante pour tous nos programmes)*
